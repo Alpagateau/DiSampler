@@ -1,5 +1,6 @@
 #ifndef ARM9
 #define ARM9
+#include "nds/arm9/video.h"
 #endif
 
 #include "mm_types.h"
@@ -44,14 +45,19 @@ int main(int argc, char *argv[])
     }
     
     Sound* s = new Sound();
-    size_t len = s->loadFromFile("fat:/amen.raw", 48000);
+    size_t len = s->loadFromFile("fat:/amen.raw", 16000);
 
 
-    Playhead ph;
+    Playhead ph, regions[8];
     Waveform wave;
+    wave.bgColor = ARGB16(1, 20, 20, 20);
     wave.setBuffer(s->getBuffer16(), len);
     wave.setRect(10, 10, 236, 172);
     ph.setSamplePosition(0);
+    for(int i = 0; i < 8; i++)
+    {
+      regions[i].setSamplePosition(0);
+    }
     printf("Hello World\n");
 
     //s.play();
@@ -66,6 +72,11 @@ int main(int argc, char *argv[])
       wave.update(VRAM_A);
       ph.update(wave, VRAM_A);
       ph.setSamplePosition(s->current_pos);
+      for(int i = 0; i < 8; i++)
+      {
+        regions[i].update(wave, VRAM_A);
+        regions[i].setSamplePosition(sampler.getRegion(i));
+      }
       
       scanKeys();
       if(keysDown() & KEY_START)

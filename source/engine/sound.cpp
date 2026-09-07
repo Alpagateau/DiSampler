@@ -11,7 +11,8 @@ size_t Sound::loadFromFile(const char *path, u16 Hz) {
   FILE *f = fopen(path, "rb");
   if(f == NULL) return 0;
   len = fread(buffer, sizeof(s16), buffer_size, f);
-  si = {.sampling_rate = Hz,
+  si = {
+        .sampling_rate = Hz,
         .buffer_length = 1024,
         .callback = sound_callback,
         .format = MM_STREAM_16BIT_MONO,
@@ -65,6 +66,6 @@ mm_word sound_callback(mm_word l, mm_addr a, mm_stream_formats f) {
   }
 
   s_sound->display_pos = s_sound->current_pos;
-  s_sound->current_pos += l;
+  s_sound->current_pos = pos;
   return l;
 }

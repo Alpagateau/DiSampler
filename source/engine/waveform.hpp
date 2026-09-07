@@ -1,6 +1,7 @@
 #ifndef ENGINE_WAVEFORM
 #define ENGINE_WAVEFORM
 
+#include "nds/arm9/video.h"
 #ifndef ARM9
 #define ARM9
 #endif
@@ -34,6 +35,7 @@ class Waveform
     void update(u16* bgBuffer);
     size_t bucket_size = 1;
     size_t buffer_len = 0;
+    u16 bgColor = (u16)ARGB16(1, 0, 0, 0);
   private:
     u16 xpos = 0, ypos = 0, width = 256, height = 192;
 

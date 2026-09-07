@@ -28,7 +28,7 @@ class Sound
     void pause();
     void resume();
     void stop();
-    static const u32 buffer_size = 5000000;
+    static const u32 buffer_size = 50000;
 
     volatile size_t current_pos = 0;
     volatile size_t display_pos = 0;
